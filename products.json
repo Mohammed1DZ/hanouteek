@@ -9,7 +9,7 @@
             "title": "Sacoche LV",
             "subtitle": "45.00 دج | الأصلي: 22.00 دج | خصم 52%",
             "image_url": "https://i.ibb.co/CsYxLTWH/sacoche-LV.png",
-            "action_url": "https://example.com/product/1", // Replace with actual URL
+            "action_url": "https://hanouteek.netlify.app/product?id=1", // Link to product page
             "buttons": [
               {
                 "type": "buy",
@@ -31,7 +31,7 @@
             "title": "Sacoch Gucci",
             "subtitle": "45.00 دج | الأصلي: 24.50 دج | خصم 46%",
             "image_url": "https://i.ibb.co/Y7X1nYP7/sacoche-gucci.png",
-            "action_url": "https://example.com/product/2", // Replace with actual URL
+            "action_url": "https://hanouteek.netlify.app/product?id=2", // Link to product page
             "buttons": [
               {
                 "type": "buy",
@@ -53,7 +53,7 @@
             "title": "Sacoche Dior",
             "subtitle": "45.00 دج | الأصلي: 24.50 دج | خصم 46%",
             "image_url": "https://i.ibb.co/HLtCr4gZ/sacoche-dior.png",
-            "action_url": "https://example.com/product/3", // Replace with actual URL
+            "action_url": "https://hanouteek.netlify.app/product?id=3", // Link to product page
             "buttons": [
               {
                 "type": "buy",
@@ -75,7 +75,7 @@
             "title": "Mavrick",
             "subtitle": "45.00 دج | الأصلي: 25.00 دج | خصم 45%",
             "image_url": "https://i.ibb.co/QvL4KBjT/mavrick.png",
-            "action_url": "https://example.com/product/4", // Replace with actual URL
+            "action_url": "https://hanouteek.netlify.app/product?id=4", // Link to product page
             "buttons": [
               {
                 "type": "buy",
@@ -97,7 +97,7 @@
             "title": "ARMANI Stronger With You 80ML",
             "subtitle": "50.00 دج | الأصلي: 37.00 دج | خصم 26%",
             "image_url": "https://i.ibb.co/yBVGbkDk/Armani-strong-with-you-80-ML.png",
-            "action_url": "https://example.com/product/5", // Replace with actual URL
+            "action_url": "https://hanouteek.netlify.app/product?id=5", // Link to product page
             "buttons": [
               {
                 "type": "buy",
@@ -119,7 +119,7 @@
             "title": "AX Flight",
             "subtitle": "55.00 دج | الأصلي: 29.00 دج | خصم 48%",
             "image_url": "https://i.ibb.co/fYpF0LMs/AX-Flight.png",
-            "action_url": "https://example.com/product/6", // Replace with actual URL
+            "action_url": "https://hanouteek.netlify.app/product?id=6", // Link to product page
             "buttons": [
               {
                 "type": "buy",
