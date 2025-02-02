@@ -1,47 +1,49 @@
 {
   "version": "v2",
-  "products": [
-    {
-      "id": 1,
-      "title": "Sacoche LV",
-      "price": 4500,
-      "image_url": "https://i.ibb.co/CsYxLTWH/sacoche-LV.png",
-      "description": "Product description"
-    },
-    {
-      "id": 2,
-      "title": "Sacoch Gucci",
-      "price": 4500,
-      "image_url": "https://i.ibb.co/Y7X1nYP7/sacoche-gucci.png",
-      "description": "Product description"
-    },
-    {
-      "id": 3,
-      "title": "Sacoche Dior",
-      "price": 4500,
-      "image_url": "https://i.ibb.co/HLtCr4gZ/sacoche-dior.png",
-      "description": "Product description"
-    },
-    {
-      "id": 4,
-      "title": "Mavrick",
-      "price": 4500,
-      "image_url": "https://i.ibb.co/QvL4KBjT/mavrick.png",
-      "description": "Product description"
-    },
-    {
-      "id": 5,
-      "title": "ARMANI Stronger With You 80M",
-      "price": 5000,
-      "image_url": "https://i.ibb.co/yBVGbkDk/Armani-strong-with-you-80-ML.png",
-      "description": "Product description"
-    },
-    {
-      "id": 6,
-      "title": "AX Flight",
-      "price": 5500,
-      "image_url": "https://i.ibb.co/fYpF0LMs/AX-Flight.png",
-      "description": "Product description"
-    }
-  ]
+  "content": {
+    "products": [
+      {
+        "id": 1,
+        "title": "Sacoche LV",
+        "price": 450000,  // Price in cents (4500 DZD = 450000 cents)
+        "image_url": "https://i.ibb.co/CsYxLTWH/sacoche-LV.png",
+        "description": "Product description"
+      },
+      {
+        "id": 2,
+        "title": "Sacoch Gucci",
+        "price": 450000,
+        "image_url": "https://i.ibb.co/Y7X1nYP7/sacoche-gucci.png",
+        "description": "Product description"
+      },
+      {
+        "id": 3,
+        "title": "Sacoche Dior",
+        "price": 450000,
+        "image_url": "https://i.ibb.co/HLtCr4gZ/sacoche-dior.png",
+        "description": "Product description"
+      },
+      {
+        "id": 4,
+        "title": "Mavrick",
+        "price": 450000,
+        "image_url": "https://i.ibb.co/QvL4KBjT/mavrick.png",
+        "description": "Product description"
+      },
+      {
+        "id": 5,
+        "title": "ARMANI Stronger With You 80M",
+        "price": 500000,
+        "image_url": "https://i.ibb.co/yBVGbkDk/Armani-strong-with-you-80-ML.png",
+        "description": "Product description"
+      },
+      {
+        "id": 6,
+        "title": "AX Flight",
+        "price": 550000,
+        "image_url": "https://i.ibb.co/fYpF0LMs/AX-Flight.png",
+        "description": "Product description"
+      }
+    ]
+  }
 }
