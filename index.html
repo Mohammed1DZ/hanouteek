@@ -117,128 +117,139 @@
         </div>
     </div>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const cartTotalElement = document.getElementById('cart-total');
-        const cartPopup = document.getElementById('cart-popup');
-        const cartItemsElement = document.getElementById('cart-items');
-        const productListElement = document.getElementById('product-list');
-        let cartTotal = 0;
-        let cartItems = [];
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartTotalElement = document.getElementById('cart-total');
+            const cartPopup = document.getElementById('cart-popup');
+            const cartItemsElement = document.getElementById('cart-items');
+            const productListElement = document.getElementById('product-list');
+            let cartTotal = 0;
+            let cartItems = [];
 
-        // Fetch products from the provided JSON URL
-        fetch('https://hanouteek.netlify.app/products.json') // Updated URL
-            .then(response => response.json())
-            .then(data => {
-                const products = data.products;
-                products.forEach(product => {
-                    const productElement = document.createElement('div');
-                    productElement.classList.add('product', 'bg-white', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'cursor-pointer', 'relative');
-                    productElement.setAttribute('data-price', product.price);
-                    productElement.innerHTML = `
-                        ${product.discount ? `<div class="discount absolute top-2 left-2 bg-orange-500 text-white px-2 py-1 rounded">-${product.discount}%</div>` : ''}
-                        <img src="${product.image_url}" alt="${product.description}" class="w-full h-48 object-cover" width="300" height="300"/>
-                        <div class="p-4 text-center">
-                            <div class="title text-lg font-bold mb-2">${product.title}</div>
-                            <div class="price text-orange-500 text-lg mb-2">${product.price.toFixed(2)} دج <span class="old-price text-gray-500 line-through">${product.old_price ? product.old_price.toFixed(2) : ''} دج</span></div>
-                            <a href="#" class="buy bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">شراء</a>
-                        </div>
+            // Fetch products from the provided JSON URL
+            fetch('https://hanouteek.netlify.app/products.json') // Updated URL
+                .then(response => response.json())
+                .then(products => { // Directly use the array of products
+                    products.forEach(product => {
+                        const productElement = document.createElement('div');
+                        productElement.classList.add('product', 'bg-white', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'cursor-pointer', 'relative');
+                        productElement.setAttribute('data-price', product.price);
+                        productElement.innerHTML = `
+                            ${product.discount ? `<div class="discount absolute top-2 left-2 bg-orange-500 text-white px-2 py-1 rounded">-${product.discount}%</div>` : ''}
+                            <img src="${product.image_url}" alt="${product.description}" class="w-full h-48 object-cover" width="300" height="300"/>
+                            <div class="p-4 text-center">
+                                <div class="title text-lg font-bold mb-2">${product.title}</div>
+                                <div class="price text-orange-500 text-lg mb-2">${product.price.toFixed(2)} دج <span class="old-price text-gray-500 line-through">${product.old_price ? product.old_price.toFixed(2) : ''} دج</span></div>
+                                <a href="#" class="buy bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">شراء</a>
+                            </div>
+                        `;
+                        productListElement.appendChild(productElement);
+                    });
+
+                    // Add event listeners to dynamically added products
+                    document.querySelectorAll('.buy').forEach(button => {
+                        button.addEventListener('click', function(event) {
+                            event.preventDefault();
+                            const productElement = this.closest('.product');
+                            const productPrice = parseFloat(productElement.getAttribute('data-price'));
+                            const productTitle = productElement.querySelector('.title').textContent;
+                            const productImage = productElement.querySelector('img').src;
+
+                            cartTotal += productPrice;
+                            cartItems.push({ title: productTitle, price: productPrice, image: productImage });
+
+                            cartTotalElement.innerHTML = `<i class="fas fa-shopping-cart"></i> ${cartTotal.toFixed(2)} دج`;
+                            cartTotalElement.style.transform = 'scale(1.2)';
+                            setTimeout(() => {
+                                cartTotalElement.style.transform = 'scale(1)';
+                            }, 300);
+                        });
+                    });
+
+                    document.querySelectorAll('.product').forEach(product => {
+                        product.addEventListener('click', function() {
+                            const imageSrc = this.querySelector('img').src;
+                            const title = this.querySelector('.title').textContent;
+                            const price = this.querySelector('.price').textContent;
+                            const oldPrice = this.querySelector('.old-price').textContent;
+
+                            document.getElementById('detail-image').src = imageSrc;
+                            document.getElementById('detail-title').textContent = title;
+                            document.getElementById('detail-price').textContent = price;
+                            document.getElementById('detail-old-price').textContent = oldPrice;
+
+                            document.getElementById('product-detail').style.display = 'flex';
+                        });
+                    });
+                })
+                .catch(error => console.error('Error fetching products:', error));
+
+            cartTotalElement.addEventListener('click', function() {
+                cartItemsElement.innerHTML = '';
+                cartItems.forEach(item => {
+                    const li = document.createElement('li');
+                    li.classList.add('flex', 'justify-between', 'items-center', 'mb-2');
+                    li.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}" class="w-16 h-16 object-cover rounded">
+                        <span class="text-lg">${item.title}</span>
+                        <span class="text-orange-500">${item.price.toFixed(2)} دج</span>
+                        <button class="remove-item bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" data-title="${item.title}">إزالة</button>
                     `;
-                    productListElement.appendChild(productElement);
+                    cartItemsElement.appendChild(li);
                 });
-
-                // Add event listeners to dynamically added products
-                document.querySelectorAll('.buy').forEach(button => {
-                    button.addEventListener('click', function(event) {
-                        event.preventDefault();
-                        const productElement = this.closest('.product');
-                        const productPrice = parseFloat(productElement.getAttribute('data-price'));
-                        const productTitle = productElement.querySelector('.title').textContent;
-                        const productImage = productElement.querySelector('img').src;
-
-                        cartTotal += productPrice;
-                        cartItems.push({ title: productTitle, price: productPrice, image: productImage });
-
-                        cartTotalElement.innerHTML = `<i class="fas fa-shopping-cart"></i> ${cartTotal.toFixed(2)} دج`;
-                        cartTotalElement.style.transform = 'scale(1.2)';
-                        setTimeout(() => {
-                            cartTotalElement.style.transform = 'scale(1)';
-                        }, 300);
-                    });
-                });
-
-                document.querySelectorAll('.product').forEach(product => {
-                    product.addEventListener('click', function() {
-                        const imageSrc = this.querySelector('img').src;
-                        const title = this.querySelector('.title').textContent;
-                        const price = this.querySelector('.price').textContent;
-                        const oldPrice = this.querySelector('.old-price').textContent;
-
-                        document.getElementById('detail-image').src = imageSrc;
-                        document.getElementById('detail-title').textContent = title;
-                        document.getElementById('detail-price').textContent = price;
-                        document.getElementById('detail-old-price').textContent = oldPrice;
-
-                        document.getElementById('product-detail').style.display = 'flex';
-                    });
-                });
+                cartPopup.style.display = 'flex';
             });
 
-        cartTotalElement.addEventListener('click', function() {
-            cartItemsElement.innerHTML = '';
-            cartItems.forEach(item => {
-                const li = document.createElement('li');
-                li.classList.add('flex', 'justify-between', 'items-center', 'mb-2');
-                li.innerHTML = `
-                    <img src="${item.image}" alt="${item.title}" class="w-16 h-16 object-cover rounded">
-                    <span class="text-lg">${item.title}</span>
-                    <span class="text-orange-500">${item.price.toFixed(2)} دج</span>
-                    <button class="remove-item bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" data-title="${item.title}">إزالة</button>
-                `;
-                cartItemsElement.appendChild(li);
-            });
-            cartPopup.style.display = 'flex';
-        });
-
-        document.getElementById('detail-close').addEventListener('click', function(event) {
-            event.preventDefault();
-            document.getElementById('product-detail').style.display = 'none';
-        });
-
-        document.getElementById('cart-close').addEventListener('click', function(event) {
-            event.preventDefault();
-            cartPopup.style.display = 'none';
-        });
-
-        document.addEventListener('click', function(event) {
-            if (event.target === cartPopup) {
-                cartPopup.style.display = 'none';
-            }
-            if (event.target === document.getElementById('product-detail')) {
+            document.getElementById('detail-close').addEventListener('click', function(event) {
+                event.preventDefault();
                 document.getElementById('product-detail').style.display = 'none';
-            }
-        });
+            });
 
-        cartItemsElement.addEventListener('click', function(event) {
-            if (event.target.classList.contains('remove-item')) {
-                const itemTitle = event.target.getAttribute('data-title');
-                cartItems = cartItems.filter(item => item.title !== itemTitle);
-                cartTotal = cartItems.reduce((total, item) => total + item.price, 0);
+            document.getElementById('cart-close').addEventListener('click', function(event) {
+                event.preventDefault();
+                cartPopup.style.display = 'none';
+            });
+
+            document.addEventListener('click', function(event) {
+                if (event.target === cartPopup) {
+                    cartPopup.style.display = 'none';
+                }
+                if (event.target === document.getElementById('product-detail')) {
+                    document.getElementById('product-detail').style.display = 'none';
+                }
+            });
+
+            cartItemsElement.addEventListener('click', function(event) {
+                if (event.target.classList.contains('remove-item')) {
+                    const itemTitle = event.target.getAttribute('data-title');
+                    cartItems = cartItems.filter(item => item.title !== itemTitle);
+                    cartTotal = cartItems.reduce((total, item) => total + item.price, 0);
+                    cartTotalElement.innerHTML = `<i class="fas fa-shopping-cart"></i> ${cartTotal.toFixed(2)} دج`;
+                    event.target.closest('li').remove();
+                }
+            });
+
+            if (cartTotal === 0) {
+                cartTotalElement.innerHTML = `<i class="fas fa-shopping-cart"></i> سلة التسوق فارغة`;
+            }
+
+            document.getElementById('detail-buy').addEventListener('click', function(event) {
+                event.preventDefault();
+                const productTitle = document.getElementById('detail-title').textContent;
+                const productPrice = parseFloat(document.getElementById('detail-price').textContent);
+                const productImage = document.getElementById('detail-image').src;
+
+                cartTotal += productPrice;
+                cartItems.push({ title: productTitle, price: productPrice, image: productImage });
+
                 cartTotalElement.innerHTML = `<i class="fas fa-shopping-cart"></i> ${cartTotal.toFixed(2)} دج`;
-                event.target.closest('li').remove();
-            }
-        });
+                cartTotalElement.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    cartTotalElement.style.transform = 'scale(1)';
+                }, 300);
 
-        if (cartTotal === 0) {
-            cartTotalElement.innerHTML = `<i class="fas fa-shopping-cart"></i> سلة التسوق فارغة`;
-        }
-
-        document.getElementById('detail-buy').addEventListener('click', function(event) {
-            event.preventDefault();
-            const productTitle = document.getElementById('detail-title').textContent;
-            const productPrice = parseFloat(document.getElementById('detail-price').textContent);
-            // Handle the buying action here
+                document.getElementById('product-detail').style.display = 'none';
+            });
         });
-    });
-</script>
+    </script>
 </body>
 </html>
