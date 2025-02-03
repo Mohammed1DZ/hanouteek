@@ -1,0 +1,158 @@
+{
+  "version": "v2",
+  "content": {
+    "messages": [
+      {
+        "type": "cards",
+        "elements": [
+          {
+            "title": "Sacoche LV",
+            "subtitle": "Price: 4500 DA | Discount: 52%\nA stylish LV bag.",
+            "image_url": "https://i.ibb.co/CsYxLTWH/sacoche-LV.png",
+            "buttons": [
+              {
+                "type": "dynamic_block_callback",
+                "caption": "Add to Cart",
+                "url": "https://hanouteek-api.netlify.app/.netlify/functions/add-to-cart",
+                "method": "post",
+                "payload": {
+                  "product_id": "1",
+                  "action": "add_to_cart"
+                }
+              },
+              {
+                "type": "url",
+                "caption": "View Details",
+                "url": "https://hanouteek.netlify.app/product/1"
+              }
+            ]
+          },
+          {
+            "title": "Sacoche Gucci",
+            "subtitle": "Price: 4500 DA | Discount: 46%\nA luxurious Gucci bag.",
+            "image_url": "https://i.ibb.co/Y7X1nYP7/sacoche-gucci.png",
+            "buttons": [
+              {
+                "type": "dynamic_block_callback",
+                "caption": "Add to Cart",
+                "url": "https://hanouteek-api.netlify.app/.netlify/functions/add-to-cart",
+                "method": "post",
+                "payload": {
+                  "product_id": "2",
+                  "action": "add_to_cart"
+                }
+              },
+              {
+                "type": "url",
+                "caption": "View Details",
+                "url": "https://hanouteek.netlify.app/product/2"
+              }
+            ]
+          },
+          {
+            "title": "Sacoche Dior",
+            "subtitle": "Price: 4500 DA | Discount: 46%\nAn elegant Dior bag.",
+            "image_url": "https://i.ibb.co/HLtCr4gZ/sacoche-dior.png",
+            "buttons": [
+              {
+                "type": "dynamic_block_callback",
+                "caption": "Add to Cart",
+                "url": "https://hanouteek-api.netlify.app/.netlify/functions/add-to-cart",
+                "method": "post",
+                "payload": {
+                  "product_id": "3",
+                  "action": "add_to_cart"
+                }
+              },
+              {
+                "type": "url",
+                "caption": "View Details",
+                "url": "https://hanouteek.netlify.app/product/3"
+              }
+            ]
+          },
+          {
+            "title": "Mavrick",
+            "subtitle": "Price: 4500 DA | Discount: 45%\nA trendy Mavrick bag.",
+            "image_url": "https://i.ibb.co/QvL4KBjT/mavrick.png",
+            "buttons": [
+              {
+                "type": "dynamic_block_callback",
+                "caption": "Add to Cart",
+                "url": "https://hanouteek-api.netlify.app/.netlify/functions/add-to-cart",
+                "method": "post",
+                "payload": {
+                  "product_id": "4",
+                  "action": "add_to_cart"
+                }
+              },
+              {
+                "type": "url",
+                "caption": "View Details",
+                "url": "https://hanouteek.netlify.app/product/4"
+              }
+            ]
+          },
+          {
+            "title": "ARMANI Stronger With You 80ML",
+            "subtitle": "Price: 5000 DA | Discount: 26%\nA premium fragrance.",
+            "image_url": "https://i.ibb.co/yBVGbkDk/Armani-strong-with-you-80-ML.png",
+            "buttons": [
+              {
+                "type": "dynamic_block_callback",
+                "caption": "Add to Cart",
+                "url": "https://hanouteek-api.netlify.app/.netlify/functions/add-to-cart",
+                "method": "post",
+                "payload": {
+                  "product_id": "5",
+                  "action": "add_to_cart"
+                }
+              },
+              {
+                "type": "url",
+                "caption": "View Details",
+                "url": "https://hanouteek.netlify.app/product/5"
+              }
+            ]
+          },
+          {
+            "title": "AX Flight",
+            "subtitle": "Price: 5500 DA | Discount: 48%\nA bold AX fragrance.",
+            "image_url": "https://i.ibb.co/fYpF0LMs/AX-Fflight.png",
+            "buttons": [
+              {
+                "type": "dynamic_block_callback",
+                "caption": "Add to Cart",
+                "url": "https://hanouteek-api.netlify.app/.netlify/functions/add-to-cart",
+                "method": "post",
+                "payload": {
+                  "product_id": "6",
+                  "action": "add_to_cart"
+                }
+              },
+              {
+                "type": "url",
+                "caption": "View Details",
+                "url": "https://hanouteek.netlify.app/product/6"
+              }
+            ]
+          }
+        ],
+        "image_aspect_ratio": "horizontal"
+      }
+    ],
+    "actions": [
+      {
+        "action": "add_tag",
+        "tag_name": "Catalog Viewer"
+      }
+    ],
+    "quick_replies": [
+      {
+        "type": "node",
+        "caption": "Back to Menu",
+        "target": "Main Menu"
+      }
+    ]
+  }
+}
