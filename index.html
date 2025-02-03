@@ -127,129 +127,87 @@
 
             // Fetch products from the provided JSON URL
             fetch('https://hanouteek.netlify.app/products.json') // Updated URL
-                .then(response => response.json())
-                .then(products => { // Directly use the array of products
-                    products.forEach(product => {
-                        const productElement = document.createElement('div');
-                        productElement.classList.add('product', 'bg-white', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'cursor-pointer', 'relative');
-                        productElement.setAttribute('data-price', product.price);
-                        productElement.innerHTML = `
-                            ${product.discount ? `<div class="discount absolute top-2 left-2 bg-orange-500 text-white px-2 py-1 rounded">-${product.discount}%</div>` : ''}
-                            <img src="${product.image_url}" alt="${product.description}" class="w-full h-48 object-cover" width="300" height="300"/>
-                            <div class="p-4 text-center">
-                                <div class="title text-lg font-bold mb-2">${product.title}</div>
-                                <div class="price text-orange-500 text-lg mb-2">${product.price.toFixed(2)} دج <span class="old-price text-gray-500 line-through">${product.old_price ? product.old_price.toFixed(2) : ''} دج</span></div>
-                                <a href="#" class="buy bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">شراء</a>
-                            </div>
-                        `;
-                        productListElement.appendChild(productElement);
-                    });
+  .then(response => response.json())
+  .then(data => {
+    console.log('Fetched JSON:', data);  // Log the fetched data to debug
 
-                    // Add event listeners to dynamically added products
-                    document.querySelectorAll('.buy').forEach(button => {
-                        button.addEventListener('click', function(event) {
-                            event.preventDefault();
-                            const productElement = this.closest('.product');
-                            const productPrice = parseFloat(productElement.getAttribute('data-price'));
-                            const productTitle = productElement.querySelector('.title').textContent;
-                            const productImage = productElement.querySelector('img').src;
+    // Ensure the fetched data is an array
+    if (!Array.isArray(data)) {
+      console.error('Error: Expected an array but got', typeof data);
+      return;
+    }
 
-                            cartTotal += productPrice;
-                            cartItems.push({ title: productTitle, price: productPrice, image: productImage });
+    // Select the container where products will be displayed
+    const productsContainer = document.getElementById('products-container');
 
-                            cartTotalElement.innerHTML = `<i class="fas fa-shopping-cart"></i> ${cartTotal.toFixed(2)} دج`;
-                            cartTotalElement.style.transform = 'scale(1.2)';
-                            setTimeout(() => {
-                                cartTotalElement.style.transform = 'scale(1)';
-                            }, 300);
-                        });
-                    });
+    // Iterate over the product array to display each item
+    data.forEach(product => {
+      // Create a div for each product
+      const productDiv = document.createElement('div');
+      productDiv.classList.add('product');
+      
+      // Add product image
+      const productImage = document.createElement('img');
+      productImage.src = product.image_url;
+      productImage.alt = product.title;
+      productImage.classList.add('product-image');
 
-                    document.querySelectorAll('.product').forEach(product => {
-                        product.addEventListener('click', function() {
-                            const imageSrc = this.querySelector('img').src;
-                            const title = this.querySelector('.title').textContent;
-                            const price = this.querySelector('.price').textContent;
-                            const oldPrice = this.querySelector('.old-price').textContent;
+      // Add product title
+      const productTitle = document.createElement('h3');
+      productTitle.classList.add('product-title');
+      productTitle.textContent = product.title;
 
-                            document.getElementById('detail-image').src = imageSrc;
-                            document.getElementById('detail-title').textContent = title;
-                            document.getElementById('detail-price').textContent = price;
-                            document.getElementById('detail-old-price').textContent = oldPrice;
+      // Add product price
+      const productPrice = document.createElement('p');
+      productPrice.classList.add('product-price');
+      productPrice.textContent = `Price: $${product.price}`;
 
-                            document.getElementById('product-detail').style.display = 'flex';
-                        });
-                    });
-                })
-                .catch(error => console.error('Error fetching products:', error));
+      // Add product old price (if applicable)
+      const productOldPrice = document.createElement('p');
+      productOldPrice.classList.add('product-old-price');
+      productOldPrice.textContent = `Old Price: $${product.old_price}`;
 
-            cartTotalElement.addEventListener('click', function() {
-                cartItemsElement.innerHTML = '';
-                cartItems.forEach(item => {
-                    const li = document.createElement('li');
-                    li.classList.add('flex', 'justify-between', 'items-center', 'mb-2');
-                    li.innerHTML = `
-                        <img src="${item.image}" alt="${item.title}" class="w-16 h-16 object-cover rounded">
-                        <span class="text-lg">${item.title}</span>
-                        <span class="text-orange-500">${item.price.toFixed(2)} دج</span>
-                        <button class="remove-item bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" data-title="${item.title}">إزالة</button>
-                    `;
-                    cartItemsElement.appendChild(li);
-                });
-                cartPopup.style.display = 'flex';
-            });
+      // Add product description
+      const productDescription = document.createElement('p');
+      productDescription.classList.add('product-description');
+      productDescription.textContent = product.description;
 
-            document.getElementById('detail-close').addEventListener('click', function(event) {
-                event.preventDefault();
-                document.getElementById('product-detail').style.display = 'none';
-            });
+      // Add a button to add to cart
+      const addToCartButton = document.createElement('button');
+      addToCartButton.classList.add('add-to-cart-button');
+      addToCartButton.textContent = 'Add to Cart';
 
-            document.getElementById('cart-close').addEventListener('click', function(event) {
-                event.preventDefault();
-                cartPopup.style.display = 'none';
-            });
+      // Append all elements to the product div
+      productDiv.appendChild(productImage);
+      productDiv.appendChild(productTitle);
+      productDiv.appendChild(productPrice);
+      productDiv.appendChild(productOldPrice);
+      productDiv.appendChild(productDescription);
+      productDiv.appendChild(addToCartButton);
 
-            document.addEventListener('click', function(event) {
-                if (event.target === cartPopup) {
-                    cartPopup.style.display = 'none';
-                }
-                if (event.target === document.getElementById('product-detail')) {
-                    document.getElementById('product-detail').style.display = 'none';
-                }
-            });
+      // Append the product div to the products container
+      productsContainer.appendChild(productDiv);
 
-            cartItemsElement.addEventListener('click', function(event) {
-                if (event.target.classList.contains('remove-item')) {
-                    const itemTitle = event.target.getAttribute('data-title');
-                    cartItems = cartItems.filter(item => item.title !== itemTitle);
-                    cartTotal = cartItems.reduce((total, item) => total + item.price, 0);
-                    cartTotalElement.innerHTML = `<i class="fas fa-shopping-cart"></i> ${cartTotal.toFixed(2)} دج`;
-                    event.target.closest('li').remove();
-                }
-            });
+      // Handle the Add to Cart button click
+      addToCartButton.addEventListener('click', () => {
+        // Show a prompt to the user to select quantity, size, color, etc.
+        // You can add a modal or popup here for customization options
+        const quantity = prompt('Enter quantity:');
+        const size = prompt('Enter size (if applicable):');
+        const color = prompt('Enter color (if applicable):');
 
-            if (cartTotal === 0) {
-                cartTotalElement.innerHTML = `<i class="fas fa-shopping-cart"></i> سلة التسوق فارغة`;
-            }
+        // Collect user info for the order (Phone, Delivery Type)
+        const phoneNumber = prompt('Enter your phone number:');
+        const deliveryType = prompt('Select delivery type (LED Office/House):');
 
-            document.getElementById('detail-buy').addEventListener('click', function(event) {
-                event.preventDefault();
-                const productTitle = document.getElementById('detail-title').textContent;
-                const productPrice = parseFloat(document.getElementById('detail-price').textContent);
-                const productImage = document.getElementById('detail-image').src;
-
-                cartTotal += productPrice;
-                cartItems.push({ title: productTitle, price: productPrice, image: productImage });
-
-                cartTotalElement.innerHTML = `<i class="fas fa-shopping-cart"></i> ${cartTotal.toFixed(2)} دج`;
-                cartTotalElement.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    cartTotalElement.style.transform = 'scale(1)';
-                }, 300);
-
-                document.getElementById('product-detail').style.display = 'none';
-            });
-        });
+        // Display a summary of the order
+        alert(`You added: ${quantity} x ${product.title} \nSize: ${size} \nColor: ${color} \nPhone: ${phoneNumber} \nDelivery: ${deliveryType}`);
+      });
+    });
+  })
+  .catch(error => {
+    console.error('Error fetching products:', error);
+  });
     </script>
 </body>
 </html>
