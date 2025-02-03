@@ -132,8 +132,8 @@
                     console.log('Fetched JSON:', data);  // Log the fetched data to debug
 
                     // Ensure the fetched data is an array
-                    if (!data.content || !data.content.messages || !data.content.messages[0].attachment || !data.content.messages[0].attachment.payload || !Array.isArray(data.content.messages[0].attachment.payload.elements)) {
-                        console.error('Error: Expected an array but got', typeof data.content.messages[0].attachment.payload.elements);
+                    if (!data.content || !data.content.messages || !data.content.messages[0].elements || !Array.isArray(data.content.messages[0].elements)) {
+                        console.error('Error: Expected an array but got', typeof data.content.messages[0].elements);
                         const errorMessage = document.createElement('div');
                         errorMessage.classList.add('bg-red-500', 'text-white', 'p-4', 'rounded', 'text-center', 'w-full');
                         errorMessage.textContent = 'حدث خطأ أثناء تحميل المنتجات. يرجى المحاولة مرة أخرى لاحقًا.';
@@ -142,7 +142,7 @@
                     }
 
                     // Iterate over the product array to display each item
-                    data.content.messages[0].attachment.payload.elements.forEach(product => {
+                    data.content.messages[0].elements.forEach(product => {
                         // Extract price and discount from subtitle
                         const priceMatch = product.subtitle.match(/Price: (\d+) DA/);
                         const discountMatch = product.subtitle.match(/Discount: (\d+)%/);
