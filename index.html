@@ -93,7 +93,7 @@
                 </li>
             </ul>
         </div>
-        <div class="products grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-3/4" id="product-list">
+        <div class="products grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-3/4" id="products-container">
             <!-- Products will be dynamically added here -->
         </div>
     </div>
@@ -121,28 +121,83 @@
             const cartTotalElement = document.getElementById('cart-total');
             const cartPopup = document.getElementById('cart-popup');
             const cartItemsElement = document.getElementById('cart-items');
-            const productListElement = document.getElementById('product-list');
+            const productsContainer = document.getElementById('products-container');
             let cartTotal = 0;
             let cartItems = [];
 
-            // Fetch products from the provided JSON URL
-            fetch('https://hanouteek.netlify.app/products.json') // Updated URL
+            // Fetch the JSON file with product data
+            fetch('https://hanouteek.netlify.app/products.json')
                 .then(response => response.json())
-                .then(products => { // Directly use the array of products
-                    products.forEach(product => {
-                        const productElement = document.createElement('div');
-                        productElement.classList.add('product', 'bg-white', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'cursor-pointer', 'relative');
-                        productElement.setAttribute('data-price', product.price);
-                        productElement.innerHTML = `
-                            ${product.discount ? `<div class="discount absolute top-2 left-2 bg-orange-500 text-white px-2 py-1 rounded">-${product.discount}%</div>` : ''}
-                            <img src="${product.image_url}" alt="${product.description}" class="w-full h-48 object-cover" width="300" height="300"/>
-                            <div class="p-4 text-center">
-                                <div class="title text-lg font-bold mb-2">${product.title}</div>
-                                <div class="price text-orange-500 text-lg mb-2">${product.price.toFixed(2)} دج <span class="old-price text-gray-500 line-through">${product.old_price ? product.old_price.toFixed(2) : ''} دج</span></div>
-                                <a href="#" class="buy bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">شراء</a>
-                            </div>
-                        `;
-                        productListElement.appendChild(productElement);
+                .then(data => {
+                    console.log('Fetched JSON:', data);  // Log the fetched data to debug
+
+                    // Ensure the fetched data is an array
+                    if (!Array.isArray(data)) {
+                        console.error('Error: Expected an array but got', typeof data);
+                        return;
+                    }
+
+                    // Iterate over the product array to display each item
+                    data.forEach(product => {
+                        // Create a div for each product
+                        const productDiv = document.createElement('div');
+                        productDiv.classList.add('product', 'bg-white', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'cursor-pointer', 'relative');
+                        productDiv.setAttribute('data-price', product.price);
+
+                        // Add product image
+                        const productImage = document.createElement('img');
+                        productImage.src = product.image_url;
+                        productImage.alt = product.title;
+                        productImage.classList.add('w-full', 'h-48', 'object-cover');
+                        productImage.width = 300;
+                        productImage.height = 300;
+
+                        // Add product title
+                        const productTitle = document.createElement('h3');
+                        productTitle.classList.add('title', 'text-lg', 'font-bold', 'mb-2');
+                        productTitle.textContent = product.title;
+
+                        // Add product price
+                        const productPrice = document.createElement('p');
+                        productPrice.classList.add('price', 'text-orange-500', 'text-lg', 'mb-2');
+                        productPrice.textContent = `${product.price.toFixed(2)} دج`;
+
+                        // Add product old price (if applicable)
+                        const productOldPrice = document.createElement('p');
+                        productOldPrice.classList.add('old-price', 'text-gray-500', 'line-through');
+                        productOldPrice.textContent = `${product.old_price.toFixed(2)} دج`;
+
+                        // Add a button to add to cart
+                        const addToCartButton = document.createElement('a');
+                        addToCartButton.classList.add('buy', 'bg-orange-500', 'text-white', 'px-4', 'py-2', 'rounded', 'hover:bg-orange-600', 'inline-block');
+                        addToCartButton.href = '#';
+                        addToCartButton.textContent = 'شراء';
+
+                        // Append all elements to the product div
+                        productDiv.appendChild(productImage);
+                        productDiv.appendChild(productTitle);
+                        productDiv.appendChild(productPrice);
+                        productDiv.appendChild(productOldPrice);
+                        productDiv.appendChild(addToCartButton);
+
+                        // Append the product div to the products container
+                        productsContainer.appendChild(productDiv);
+
+                        // Handle the Add to Cart button click
+                        addToCartButton.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            // Show a prompt to the user to select quantity, size, color, etc.
+                            const quantity = prompt('Enter quantity:');
+                            const size = prompt('Enter size (if applicable):');
+                            const color = prompt('Enter color (if applicable):');
+
+                            // Collect user info for the order (Phone, Delivery Type)
+                            const phoneNumber = prompt('Enter your phone number:');
+                            const deliveryType = prompt('Select delivery type (LED Office/House):');
+
+                            // Display a summary of the order
+                            alert(`You added: ${quantity} x ${product.title} \nSize: ${size} \nColor: ${color} \nPhone: ${phoneNumber} \nDelivery: ${deliveryType}`);
+                        });
                     });
 
                     // Add event listeners to dynamically added products
@@ -181,7 +236,9 @@
                         });
                     });
                 })
-                .catch(error => console.error('Error fetching products:', error));
+                .catch(error => {
+                    console.error('Error fetching products:', error);
+                });
 
             cartTotalElement.addEventListener('click', function() {
                 cartItemsElement.innerHTML = '';
