@@ -1,3 +1,12 @@
 [build]
   functions = "functions"
-  publish = "public"
+
+[[redirects]]
+  from = "/api/products"
+  to = "/.netlify/functions/products"
+  status = 200
+
+[[redirects]]
+  from = "/api/add-to-cart"
+  to = "/.netlify/functions/add-to-cart"
+  status = 200
