@@ -132,17 +132,28 @@
                     console.log('Fetched JSON:', data);  // Log the fetched data to debug
 
                     // Ensure the fetched data is an array
-                    if (!Array.isArray(data)) {
-                        console.error('Error: Expected an array but got', typeof data);
+                    if (!data.content || !data.content.messages || !data.content.messages[0].attachment || !data.content.messages[0].attachment.payload || !Array.isArray(data.content.messages[0].attachment.payload.elements)) {
+                        console.error('Error: Expected an array but got', typeof data.content.messages[0].attachment.payload.elements);
+                        const errorMessage = document.createElement('div');
+                        errorMessage.classList.add('bg-red-500', 'text-white', 'p-4', 'rounded', 'text-center', 'w-full');
+                        errorMessage.textContent = 'حدث خطأ أثناء تحميل المنتجات. يرجى المحاولة مرة أخرى لاحقًا.';
+                        productsContainer.appendChild(errorMessage);
                         return;
                     }
 
                     // Iterate over the product array to display each item
-                    data.forEach(product => {
+                    data.content.messages[0].attachment.payload.elements.forEach(product => {
+                        // Extract price and discount from subtitle
+                        const priceMatch = product.subtitle.match(/Price: (\d+) DA/);
+                        const discountMatch = product.subtitle.match(/Discount: (\d+)%/);
+                        const price = priceMatch ? parseFloat(priceMatch[1]) : 0;
+                        const discount = discountMatch ? parseFloat(discountMatch[1]) : 0;
+                        const oldPrice = price / (1 - discount / 100);
+
                         // Create a div for each product
                         const productDiv = document.createElement('div');
                         productDiv.classList.add('product', 'bg-white', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'cursor-pointer', 'relative');
-                        productDiv.setAttribute('data-price', product.price);
+                        productDiv.setAttribute('data-price', price);
 
                         // Add product image
                         const productImage = document.createElement('img');
@@ -160,12 +171,12 @@
                         // Add product price
                         const productPrice = document.createElement('p');
                         productPrice.classList.add('price', 'text-orange-500', 'text-lg', 'mb-2');
-                        productPrice.textContent = `${product.price.toFixed(2)} دج`;
+                        productPrice.textContent = `${price.toFixed(2)} دج`;
 
                         // Add product old price (if applicable)
                         const productOldPrice = document.createElement('p');
                         productOldPrice.classList.add('old-price', 'text-gray-500', 'line-through');
-                        productOldPrice.textContent = `${product.old_price.toFixed(2)} دج`;
+                        productOldPrice.textContent = `${oldPrice.toFixed(2)} دج`;
 
                         // Add a button to add to cart
                         const addToCartButton = document.createElement('a');
