@@ -22,6 +22,22 @@
     </nav>
   </header>
 
+  <!-- Product Categories Section -->
+  <section class="mb-4">
+    <h2 class="text-xl font-bold">التصنيفات</h2>
+    <div class="flex space-x-2">
+      <button class="bg-gray-200 px-4 py-2 rounded" onclick="filterProducts('all')">الكل</button>
+      <button class="bg-gray-200 px-4 py-2 rounded" onclick="filterProducts('PROMO')">PROMO</button>
+      <button class="bg-gray-200 px-4 py-2 rounded" onclick="filterProducts('HOMME')">HOMME</button>
+      <button class="bg-gray-200 px-4 py-2 rounded" onclick="filterProducts('FEMME')">FEMME</button>
+      <button class="bg-gray-200 px-4 py-2 rounded" onclick="filterProducts('ENFANTS')">ENFANTS</button>
+      <button class="bg-gray-200 px-4 py-2 rounded" onclick="filterProducts('New Modèle')">New Modèle</button>
+      <button class="bg-gray-200 px-4 py-2 rounded" onclick="filterProducts('Parfums')">Parfums</button>
+      <button class="bg-gray-200 px-4 py-2 rounded" onclick="filterProducts('Promos')">Promos</button>
+      <button class="bg-gray-200 px-4 py-2 rounded" onclick="filterProducts('Accessoires')">Accessoires</button>
+    </div>
+  </section>
+
   <!-- Product Section -->
   <section id="products" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
     <!-- Products will be dynamically added here -->
@@ -40,29 +56,46 @@
   <!-- JavaScript for Dynamic Product Loading -->
   <script>
     // Fetch products from the hosted JSON file
+    let allProducts = [];
+
     async function loadProducts() {
       try {
         const response = await fetch('https://hanouteek.netlify.app/manyChatProducts.json'); // Use the hosted URL
         const data = await response.json();
-        const productsSection = document.getElementById('products');
-
-        // Extract product elements from the JSON
-        const products = data.content.messages[0].elements;
+        allProducts = data.content.messages[0].elements;
 
         // Dynamically create product cards
-        products.forEach(product => {
-          const card = document.createElement('div');
-          card.className = 'bg-white p-4 rounded-lg shadow-md';
-          card.innerHTML = `
-            <img src="${product.image_url}" alt="${product.title}" class="w-full mb-2 rounded-md">
-            <h3 class="text-lg font-bold">${product.title}</h3>
-            <p class="text-sm">${product.subtitle}</p>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="addToCart('${product.product.label}', ${product.product.cost / 100})">إضافة إلى السلة</button>
-          `;
-          productsSection.appendChild(card);
-        });
+        renderProducts(allProducts);
       } catch (error) {
         console.error('Error loading products:', error);
+      }
+    }
+
+    // Function to render products
+    function renderProducts(products) {
+      const productsSection = document.getElementById('products');
+      productsSection.innerHTML = ''; // Clear existing products
+
+      products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'bg-white p-4 rounded-lg shadow-md';
+        card.innerHTML = `
+          <img src="${product.image_url}" alt="${product.title}" class="w-full mb-2 rounded-md">
+          <h3 class="text-lg font-bold">${product.title}</h3>
+          <p class="text-sm">${product.subtitle}</p>
+          <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="addToCart('${product.product.label}', ${product.product.cost / 100})">إضافة إلى السلة</button>
+        `;
+        productsSection.appendChild(card);
+      });
+    }
+
+    // Function to filter products by category
+    function filterProducts(category) {
+      if (category === 'all') {
+        renderProducts(allProducts);
+      } else {
+        const filteredProducts = allProducts.filter(product => product.title.includes(category));
+        renderProducts(filteredProducts);
       }
     }
 
