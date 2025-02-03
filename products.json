@@ -1,56 +1,119 @@
-[
-  {
-    "id": 1,
-    "title": "Sacoche LV",
-    "price": 4500,
-    "old_price": 2200,
-    "discount": 52,
-    "image_url": "https://i.ibb.co/CsYxLTWH/sacoche-LV.png",
-    "description": "Product description"
-  },
-  {
-    "id": 2,
-    "title": "Sacoch Gucci",
-    "price": 4500,
-    "old_price": 2450,
-    "discount": 46,
-    "image_url": "https://i.ibb.co/Y7X1nYP7/sacoche-gucci.png",
-    "description": "Product description"
-  },
-  {
-    "id": 3,
-    "title": "Sacoche Dior",
-    "price": 4500,
-    "old_price": 2450,
-    "discount": 46,
-    "image_url": "https://i.ibb.co/HLtCr4gZ/sacoche-dior.png",
-    "description": "Product description"
-  },
-  {
-    "id": 4,
-    "title": "Mavrick",
-    "price": 4500,
-    "old_price": 2500,
-    "discount": 45,
-    "image_url": "https://i.ibb.co/QvL4KBjT/mavrick.png",
-    "description": "Product description"
-  },
-  {
-    "id": 5,
-    "title": "ARMANI Stronger With You 80M",
-    "price": 5000,
-    "old_price": 3700,
-    "discount": 26,
-    "image_url": "https://i.ibb.co/yBVGbkDk/Armani-strong-with-you-80-ML.png",
-    "description": "Product description"
-  },
-  {
-    "id": 6,
-    "title": "AX Flight",
-    "price": 5500,
-    "old_price": 2900,
-    "discount": 48,
-    "image_url": "https://i.ibb.co/fYpF0LMs/AX-Flight.png",
-    "description": "Product description"
+{
+  "version": "v2",
+  "content": {
+    "messages": [
+      {
+        "attachment": {
+          "type": "template",
+          "payload": {
+            "template_type": "generic",
+            "elements": [
+              {
+                "title": "Sacoche LV",
+                "image_url": "https://i.ibb.co/CsYxLTWH/sacoche-LV.png",
+                "subtitle": "Price: 4500 DA | Discount: 52%\nProduct description",
+                "buttons": [
+                  {
+                    "type": "postback",
+                    "title": "Add to Cart",
+                    "payload": "ADD_TO_CART_1"
+                  },
+                  {
+                    "type": "postback",
+                    "title": "View Details",
+                    "payload": "VIEW_DETAILS_1"
+                  }
+                ]
+              },
+              {
+                "title": "Sacoche Gucci",
+                "image_url": "https://i.ibb.co/Y7X1nYP7/sacoche-gucci.png",
+                "subtitle": "Price: 4500 DA | Discount: 46%\nProduct description",
+                "buttons": [
+                  {
+                    "type": "postback",
+                    "title": "Add to Cart",
+                    "payload": "ADD_TO_CART_2"
+                  },
+                  {
+                    "type": "postback",
+                    "title": "View Details",
+                    "payload": "VIEW_DETAILS_2"
+                  }
+                ]
+              },
+              {
+                "title": "Sacoche Dior",
+                "image_url": "https://i.ibb.co/HLtCr4gZ/sacoche-dior.png",
+                "subtitle": "Price: 4500 DA | Discount: 46%\nProduct description",
+                "buttons": [
+                  {
+                    "type": "postback",
+                    "title": "Add to Cart",
+                    "payload": "ADD_TO_CART_3"
+                  },
+                  {
+                    "type": "postback",
+                    "title": "View Details",
+                    "payload": "VIEW_DETAILS_3"
+                  }
+                ]
+              },
+              {
+                "title": "Mavrick",
+                "image_url": "https://i.ibb.co/QvL4KBjT/mavrick.png",
+                "subtitle": "Price: 4500 DA | Discount: 45%\nProduct description",
+                "buttons": [
+                  {
+                    "type": "postback",
+                    "title": "Add to Cart",
+                    "payload": "ADD_TO_CART_4"
+                  },
+                  {
+                    "type": "postback",
+                    "title": "View Details",
+                    "payload": "VIEW_DETAILS_4"
+                  }
+                ]
+              },
+              {
+                "title": "ARMANI Stronger With You 80ML",
+                "image_url": "https://i.ibb.co/yBVGbkDk/Armani-strong-with-you-80-ML.png",
+                "subtitle": "Price: 5000 DA | Discount: 26%\nProduct description",
+                "buttons": [
+                  {
+                    "type": "postback",
+                    "title": "Add to Cart",
+                    "payload": "ADD_TO_CART_5"
+                  },
+                  {
+                    "type": "postback",
+                    "title": "View Details",
+                    "payload": "VIEW_DETAILS_5"
+                  }
+                ]
+              },
+              {
+                "title": "AX Flight",
+                "image_url": "https://i.ibb.co/fYpF0LMs/AX-Flight.png",
+                "subtitle": "Price: 5500 DA | Discount: 48%\nProduct description",
+                "buttons": [
+                  {
+                    "type": "postback",
+                    "title": "Add to Cart",
+                    "payload": "ADD_TO_CART_6"
+                  },
+                  {
+                    "type": "postback",
+                    "title": "View Details",
+                    "payload": "VIEW_DETAILS_6"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ]
   }
-]
+}
