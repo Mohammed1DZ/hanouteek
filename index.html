@@ -1,213 +1,156 @@
-<html lang="ar">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Hanouteek</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&amp;display=swap" rel="stylesheet"/>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
     <style>
         body {
-            font-family: 'Cairo', sans-serif;
-            direction: rtl;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        #products-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .product {
+            background: white;
+            padding: 15px;
+            margin: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 250px;
+        }
+        .product-image {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .product-title {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .product-price {
+            color: green;
+            font-weight: bold;
+        }
+        .product-old-price {
+            text-decoration: line-through;
+            color: red;
+        }
+        .product-description {
+            font-size: 14px;
+            color: #555;
+        }
+        .add-to-cart-button {
+            background: blue;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .add-to-cart-button:hover {
+            background: darkblue;
         }
     </style>
 </head>
-<body class="bg-gray-100">
-    <div class="header bg-white border-b border-gray-300 p-4 flex justify-between items-center">
-        <div class="logo text-2xl font-bold text-orange-500">Hanouteek</div>
-        <div class="nav flex items-center space-x-4">
-            <a href="#" class="text-gray-700 hover:text-orange-500">الرئيسية</a>
-            <a href="#" class="text-gray-700 hover:text-orange-500">التصنيفات</a>
-            <a href="#" class="text-gray-700 hover:text-orange-500">استبدال</a>
-            <a href="#" class="text-gray-700 hover:text-orange-500">مستودعاتنا</a>
-            <a href="#" class="text-gray-700 hover:text-orange-500">تتبع طلبي</a>
-        </div>
-        <div class="cart flex items-center space-x-4">
-            <span>
-                <i class="far fa-heart text-xl"></i>
-            </span>
-            <span id="cart-total" class="text-gray-700 text-lg cursor-pointer">
-                <i class="fas fa-shopping-cart text-xl"></i>
-                0.00 دج
-            </span>
-        </div>
-    </div>
-    <div class="container flex flex-col md:flex-row p-4 space-y-4 md:space-y-0 md:space-x-4">
-        <div class="filter bg-white p-4 rounded-lg shadow-md w-full md:w-1/4">
-            <h3 class="text-lg font-bold mb-4">التصنيفات</h3>
-            <ul class="space-y-2">
-                <li>
-                    <label class="flex items-center">
-                        <input type="radio" name="category" checked class="ml-2"/>
-                        الكل
-                    </label>
-                </li>
-                <li>
-                    <label class="flex items-center">
-                        <input type="radio" name="category" class="ml-2"/>
-                        PROMO
-                    </label>
-                </li>
-                <li>
-                    <label class="flex items-center">
-                        <input type="radio" name="category" class="ml-2"/>
-                        HOMME
-                    </label>
-                </li>
-                <li>
-                    <label class="flex items-center">
-                        <input type="radio" name="category" class="ml-2"/>
-                        FEMME
-                    </label>
-                </li>
-                <li>
-                    <label class="flex items-center">
-                        <input type="radio" name="category" class="ml-2"/>
-                        ENFANTS
-                    </label>
-                </li>
-                <li>
-                    <label class="flex items-center">
-                        <input type="radio" name="category" class="ml-2"/>
-                        New Modèle
-                    </label>
-                </li>
-                <li>
-                    <label class="flex items-center">
-                        <input type="radio" name="category" class="ml-2"/>
-                        Parfums
-                    </label>
-                </li>
-                <li>
-                    <label class="flex items-center">
-                        <input type="radio" name="category" class="ml-2"/>
-                        Promos
-                    </label>
-                </li>
-                <li>
-                    <label class="flex items-center">
-                        <input type="radio" name="category" class="ml-2"/>
-                        Accessoires
-                    </label>
-                </li>
-            </ul>
-        </div>
-        <div class="products grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-3/4" id="product-list">
-            <!-- Products will be dynamically added here -->
-        </div>
-    </div>
-    <div class="product-detail fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden" id="product-detail">
-        <div class="content bg-white p-4 rounded-lg w-11/12 md:w-1/2 text-center relative">
-            <img id="detail-image" src="" alt="" class="w-full h-48 object-cover mb-4" width="300" height="300"/>
-            <div class="title text-2xl font-bold mb-4" id="detail-title"></div>
-            <div class="price text-orange-500 text-xl mb-2" id="detail-price"></div>
-            <div class="old-price text-gray-500 line-through mb-4" id="detail-old-price"></div>
-            <a href="#" class="buy bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 mb-4 inline-block" id="detail-buy">شراء</a>
-            <a href="#" class="close bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800 inline-block" id="detail-close">إغلاق</a>
-        </div>
-    </div>
-    <div class="cart-popup fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden" id="cart-popup">
-        <div class="content bg-white p-4 rounded-lg w-11/12 md:w-1/2 text-center relative">
-            <h2 class="text-2xl font-bold mb-4">سلة التسوق</h2>
-            <ul id="cart-items" class="mb-4">
-                <!-- Cart items will be dynamically added here -->
-            </ul>
-            <a href="#" class="close bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800 inline-block" id="cart-close">إغلاق</a>
-        </div>
-    </div>
+<body>
+
+    <h1 style="text-align: center;">Product List</h1>
+    <div id="products-container"></div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const cartTotalElement = document.getElementById('cart-total');
-            const cartPopup = document.getElementById('cart-popup');
-            const cartItemsElement = document.getElementById('cart-items');
-            const productListElement = document.getElementById('product-list');
-            let cartTotal = 0;
-            let cartItems = [];
+        // Fetch the JSON file with product data
+        fetch('https://hanouteek.netlify.app/products.json')
+          .then(response => response.json())
+          .then(data => {
+            console.log('Fetched JSON:', data);  // Log the fetched data to debug
 
-            // Fetch products from the provided JSON URL
-            fetch('https://hanouteek.netlify.app/products.json') // Updated URL
-  .then(response => response.json())
-  .then(data => {
-    console.log('Fetched JSON:', data);  // Log the fetched data to debug
+            // Ensure the fetched data is an array
+            if (!Array.isArray(data)) {
+              console.error('Error: Expected an array but got', typeof data);
+              return;
+            }
 
-    // Ensure the fetched data is an array
-    if (!Array.isArray(data)) {
-      console.error('Error: Expected an array but got', typeof data);
-      return;
-    }
+            // Select the container where products will be displayed
+            const productsContainer = document.getElementById('products-container');
 
-    // Select the container where products will be displayed
-    const productsContainer = document.getElementById('products-container');
+            // Iterate over the product array to display each item
+            data.forEach(product => {
+              // Create a div for each product
+              const productDiv = document.createElement('div');
+              productDiv.classList.add('product');
+              
+              // Add product image
+              const productImage = document.createElement('img');
+              productImage.src = product.image_url;
+              productImage.alt = product.title;
+              productImage.classList.add('product-image');
 
-    // Iterate over the product array to display each item
-    data.forEach(product => {
-      // Create a div for each product
-      const productDiv = document.createElement('div');
-      productDiv.classList.add('product');
-      
-      // Add product image
-      const productImage = document.createElement('img');
-      productImage.src = product.image_url;
-      productImage.alt = product.title;
-      productImage.classList.add('product-image');
+              // Add product title
+              const productTitle = document.createElement('h3');
+              productTitle.classList.add('product-title');
+              productTitle.textContent = product.title;
 
-      // Add product title
-      const productTitle = document.createElement('h3');
-      productTitle.classList.add('product-title');
-      productTitle.textContent = product.title;
+              // Add product price
+              const productPrice = document.createElement('p');
+              productPrice.classList.add('product-price');
+              productPrice.textContent = `Price: $${product.price}`;
 
-      // Add product price
-      const productPrice = document.createElement('p');
-      productPrice.classList.add('product-price');
-      productPrice.textContent = `Price: $${product.price}`;
+              // Add product old price (if applicable)
+              if (product.old_price) {
+                const productOldPrice = document.createElement('p');
+                productOldPrice.classList.add('product-old-price');
+                productOldPrice.textContent = `Old Price: $${product.old_price}`;
+                productDiv.appendChild(productOldPrice);
+              }
 
-      // Add product old price (if applicable)
-      const productOldPrice = document.createElement('p');
-      productOldPrice.classList.add('product-old-price');
-      productOldPrice.textContent = `Old Price: $${product.old_price}`;
+              // Add product description
+              const productDescription = document.createElement('p');
+              productDescription.classList.add('product-description');
+              productDescription.textContent = product.description;
 
-      // Add product description
-      const productDescription = document.createElement('p');
-      productDescription.classList.add('product-description');
-      productDescription.textContent = product.description;
+              // Add a button to add to cart
+              const addToCartButton = document.createElement('button');
+              addToCartButton.classList.add('add-to-cart-button');
+              addToCartButton.textContent = 'Add to Cart';
 
-      // Add a button to add to cart
-      const addToCartButton = document.createElement('button');
-      addToCartButton.classList.add('add-to-cart-button');
-      addToCartButton.textContent = 'Add to Cart';
+              // Append all elements to the product div
+              productDiv.appendChild(productImage);
+              productDiv.appendChild(productTitle);
+              productDiv.appendChild(productPrice);
+              productDiv.appendChild(productDescription);
+              productDiv.appendChild(addToCartButton);
 
-      // Append all elements to the product div
-      productDiv.appendChild(productImage);
-      productDiv.appendChild(productTitle);
-      productDiv.appendChild(productPrice);
-      productDiv.appendChild(productOldPrice);
-      productDiv.appendChild(productDescription);
-      productDiv.appendChild(addToCartButton);
+              // Append the product div to the products container
+              productsContainer.appendChild(productDiv);
 
-      // Append the product div to the products container
-      productsContainer.appendChild(productDiv);
+              // Handle the Add to Cart button click
+              addToCartButton.addEventListener('click', () => {
+                // Show a prompt to the user to select quantity, size, color, etc.
+                const quantity = prompt('Enter quantity:');
+                const size = prompt('Enter size (if applicable):');
+                const color = prompt('Enter color (if applicable):');
 
-      // Handle the Add to Cart button click
-      addToCartButton.addEventListener('click', () => {
-        // Show a prompt to the user to select quantity, size, color, etc.
-        // You can add a modal or popup here for customization options
-        const quantity = prompt('Enter quantity:');
-        const size = prompt('Enter size (if applicable):');
-        const color = prompt('Enter color (if applicable):');
+                // Collect user info for the order (Phone, Delivery Type)
+                const phoneNumber = prompt('Enter your phone number:');
+                const deliveryType = prompt('Select delivery type (LED Office/House):');
 
-        // Collect user info for the order (Phone, Delivery Type)
-        const phoneNumber = prompt('Enter your phone number:');
-        const deliveryType = prompt('Select delivery type (LED Office/House):');
-
-        // Display a summary of the order
-        alert(`You added: ${quantity} x ${product.title} \nSize: ${size} \nColor: ${color} \nPhone: ${phoneNumber} \nDelivery: ${deliveryType}`);
-      });
-    });
-  })
-  .catch(error => {
-    console.error('Error fetching products:', error);
-  });
+                // Display a summary of the order
+                alert(`You added: ${quantity} x ${product.title} \nSize: ${size} \nColor: ${color} \nPhone: ${phoneNumber} \nDelivery: ${deliveryType}`);
+              });
+            });
+          })
+          .catch(error => {
+            console.error('Error fetching products:', error);
+          });
     </script>
+
 </body>
 </html>
